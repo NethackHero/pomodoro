@@ -1,0 +1,10 @@
+.block{
+	display: block;
+	background: blue;
+}
+
+
+.inline p{
+	display: inline;
+	background: red;
+}
