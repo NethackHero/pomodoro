@@ -1,0 +1,165 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/30896300/flipclock.css">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script src="https://dl.dropboxusercontent.com/u/30896300/flipclock.js"></script>
+		<script src="https://dl.dropboxusercontent.com/u/30896300/buzz.js"></script>		
+	</head>
+	
+	<body>
+		<div class="clock" style="margin:2em;"></div>
+		<button id='btn-stop-time'>Stop</button>
+		<button id='btn-start-time'>Start</button>
+		<button id='btn-reset-time'>Reset</button>
+		<button id='increment'>+</button>
+		<button id='decrement'>-</button>
+		
+		<div class="break-clock" style="margin:2em;"></div>
+		<button id='break-increment'>+</button>
+		<button id='break-decrement'>-</button>
+
+		<script type="text/javascript">
+			var clock;
+			var resetValue;
+			var breakClock;
+			var breakResetValue;
+			var clockRunning = false;
+			
+			$(document).ready(function() {
+				var mySound = new buzz.sound("http://s1download-universal-soundbank.com/mp3/sounds/518.mp3");
+				
+				//INITIAL BUTTONS
+				$('#btn-stop-time').attr('disabled', true);
+				$('#btn-start-time').attr('disabled', false);
+				$('#btn-reset-time').attr('disabled', true);
+				$('#increment').attr('disabled', false);
+				$('#decrement').attr('disabled', false);
+				$('#break-increment').attr('disabled', false);
+				$('#break-decrement').attr('disabled', false);
+				
+				//POMO CLOCK
+				clock = $('.clock').FlipClock(0,{
+					countdown: true,
+					autoStart: false,
+					callbacks: {
+						interval: function(){
+							var time = clock.getTime().time;
+							if(time === 0){
+								clock.stop();
+								clock.setTime(breakResetValue+1);
+								breakClock.start();
+								clockRunning = false;
+								mySound.play();
+							}
+						}
+					},
+					clockFace: 'MinuteCounter'
+				});
+				clock.setTime(clock.getTime().time + 60*25);
+				
+				// BREAK CLOCK
+				breakClock = $('.break-clock').FlipClock(0,{
+					countdown: true,
+					autoStart: false,
+					callbacks: {
+						interval: function(){
+							var time = breakClock.getTime().time;
+							if(time === 0){
+								breakClock.stop();
+								breakClock.setTime(resetValue+1);
+								clock.start();
+								clockRunning = true;
+								mySound.play();
+							}
+						}
+					},
+					clockFace: 'MinuteCounter'
+				});
+				breakClock.setTime(breakClock.getTime().time + 60*5);
+			});
+			$('#btn-stop-time').click(function(){
+					stopAll();
+				});
+			$('#btn-start-time').click(function(){
+					startAll();
+				});
+			$('#btn-reset-time').click(function(){
+					resetAll();
+				});
+			$('#increment').click(function(){
+				if(clock.getTime().time === 0){
+					clock.setTime(clock.getTime().time + 60);
+					console.log(clock.getTime().time);
+					}
+				else{
+					clock.setTime(clock.getTime().time + 61);
+				}
+				
+				
+				});
+			$('#decrement').click(function(){
+					console.log('decrement pressed');
+					clock.setTime(clock.getTime().time - 59);
+				});
+				
+			$('#break-increment').click(function(){
+					console.log('increment pressed');
+					breakClock.setTime(breakClock.getTime().time + 61);
+				});
+			$('#break-decrement').click(function(){
+					console.log('decrement pressed');
+					breakClock.setTime(breakClock.getTime().time - 59);
+				});
+				
+			
+			var stopAll = function(){
+				if($('#btn-stop-time').text() === "Stop"){
+					clock.stop();
+					breakClock.stop();
+					$('#btn-stop-time').text('Resume');
+				}
+				else{
+					if(clockRunning){
+						clock.start();
+					}
+					else{
+						breakClock.start();
+					}
+					$('#btn-stop-time').text('Stop');
+				}
+			}
+			
+			var startAll = function(){
+				clock.start();
+				clockRunning = true;
+				resetValue = clock.getTime().time + 2;
+				breakResetValue = breakClock.getTime().time + 1;
+				$('#btn-stop-time').attr('disabled', false);
+				$('#btn-start-time').attr('disabled', true);
+				$('#btn-reset-time').attr('disabled', false);
+				$('#increment').attr('disabled', true);
+				$('#decrement').attr('disabled', true);
+				$('#break-increment').attr('disabled', true);
+				$('#break-decrement').attr('disabled', true);
+				
+			}
+			
+			var resetAll = function(){
+				clock.stop();
+				clock.setTime(resetValue);
+				breakClock.setTime(breakResetValue);
+				breakClock.stop();
+				$('#btn-stop-time').attr('disabled', true);
+				$('#btn-start-time').attr('disabled', false);
+				$('#increment').attr('disabled', false);
+				$('#decrement').attr('disabled', false);
+				$('#break-increment').attr('disabled', false);
+				$('#break-decrement').attr('disabled', false);
+				$('#btn-stop-time').text('Stop');
+			}
+		</script>
+		
+	</body>
+</html>
