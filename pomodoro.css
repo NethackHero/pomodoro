@@ -1,10 +1,3 @@
-.block{
-	display: block;
-	background: blue;
-}
+.block{display: block; background: blue;}
 
-
-.inline p{
-	display: inline;
-	background: red;
-}
+.inline p{display: inline; background: red;}
