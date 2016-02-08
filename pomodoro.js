@@ -1,31 +1,72 @@
 $(document).ready(function(){
 	
-		$('.start').click(studyTimer);
+	$('.start').click(startPomodoro);
 	//$(".study-txt").prop("value","Hello2");
+	
+	/*
+	$('.stop').click(stopTimer);
+	*/
+	
+	$('.reset').click(reset);
 	});
 
 var timerRunning = false;
 var sStartTime;
-var textTime;
+var studyDuration;
+var breakDuration;
+var diffSec;
+var timeBeforePause = 0;
+var studying = true;
+
+var timer;
+
+var startPomodoro = function(reset){
+	if(!timerRunning){
+		$(".play>i").removeClass("fa-play start");
+		$(".play>i").addClass("fa-pause stop");
+		if(studying){
+			studyTimer();
+		}
+		else{
+			breakTimer();
+		}
+	}
+	else{
+		stopTimer();
+		timeBeforePause += diffSec;
+	}
+}
+
+var reset = function(){
+	stopTimer();
+	$('h1').text("00:00:00");
+	timeBeforePause = 0;
+}
+
 function studyTimer(){
 		if(!timerRunning){
 			timerRunning=true;
 			sStartTime = new Date();
-			textTime = parseInt($(".study-txt").prop("value"));
+			if(timeBeforePause === 0){
+				studyDuration = parseInt($(".study-minute").text());
+			}
 		}
+			
 		var curTime = new Date();
-		var diffSec = Math.round((curTime - sStartTime)/1000);
+		diffSec = Math.round((curTime - sStartTime)/1000);
 		
-		var timeLeft = textTime*60 - diffSec;
+		var timeLeft = studyDuration*60 - diffSec - timeBeforePause;
 		
-		$(".study-txt").prop("value",getDisplayTime(timeLeft));
+		$("h1").text(getDisplayTime(timeLeft));
 		if(timeLeft > 0){
-			window.setTimeout(studyTimer, 1000);
+			timer = window.setTimeout(studyTimer, 1000);
 		}
 		else{
 			timerRunning = false;
+			timeBeforePause = 0;
+			studying = false;
 			breakTimer();
-			$(".study-txt").prop("value",textTime);
+			
 		}
 	};
 	
@@ -34,21 +75,24 @@ var breakTimer = function(){
 	if(!timerRunning){
 		timerRunning = true;
 		sStartTime = new Date();
-		textTime = parseInt($(".break-txt").prop("value"));
+		if(timeBeforePause === 0){
+			breakDuration = parseInt($(".break-minute").text());
+		}
 	}
 	var curTime = new Date();
-	var diffSec = Math.round((curTime - sStartTime)/1000);
+	diffSec = Math.round((curTime - sStartTime)/1000);
 	
-	var timeLeft = textTime*60 - diffSec;
+	var timeLeft = breakDuration*60 - diffSec - timeBeforePause;
 	
-	$(".break-txt").prop("value",getDisplayTime(timeLeft));
+	$("h1").text(getDisplayTime(timeLeft));
 	if(timeLeft > 0){
-		window.setTimeout(breakTimer, 1000);
+		timer = window.setTimeout(breakTimer, 1000);
 	}
 	else{
 		timerRunning = false;
+		timeBeforePause = 0;
+		studying = true;
 		studyTimer();
-		$(".break-txt").prop("value",textTime);
 	}
 }
 	
@@ -60,4 +104,11 @@ var breakTimer = function(){
 		remainingSec -= minutes*60;
 		
 		return ("00" + hours).slice(-2) + ":" + ("00" + minutes).slice(-2) + ":" + ("00" + remainingSec).slice(-2);
+	}
+	
+	var stopTimer = function(){
+		clearTimeout(timer);
+		timerRunning = false;
+		$(".play>i").removeClass("fa-pause stop");
+		$(".play>i").addClass("fa-play start");
 	}

@@ -4,28 +4,37 @@
 	<link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	
 	<link rel='stylesheet' href="pomodoro.css">
 	<script src="pomodoro.js"></script>
 </head>
 
 <body>
-	<div class="block">
-		<div class="inline">
-			<input class="study-txt" type="text" style="text-align:right" value="25" />
-			<button>+</button>
-			<button>-</button>
-			<p>Study Timer</p>
+	<div class="container-fluid outside">
+		<div class='top-controls'>
+		<p class='play start'><i class="fa fa-play"></i></p>
+		<p class='reset'><i class="fa fa-refresh"></i></p>
 		</div>
-		<div class="inline">
-			<input class="break-txt" type="text" style="text-align:right" value="10" />
-			<button>+</button>
-			<button>-</button>
-			<p>Break Timer</p>
-		</div>
-		<div class="inline">
-			<button class="start">start</button>
-			<button class="stop">stop</button>
+		<div class="block">
+			<div class='timer-block'>
+				<div class='.title'>
+					<h5>STUDY 
+					<span class='study-minute' contenteditable="true">25</span>mins
+					<button>-</button><button>+</button>
+					<span class='order'>#1</span>
+					</h5>
+				</div>
+				<h1>00:00:00</h1>
+			</div>
+			
+			<div class='.title'>
+				<h5>BREAK 
+				<span class='break-minute' contenteditable="true">10</span>mins
+				<button>-</button><button>+</button>
+				<span class='order'>#2</span></h5>
+			</div>
+			
 		</div>
 	</div>
 </body>

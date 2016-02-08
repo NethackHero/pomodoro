@@ -1,3 +1,46 @@
+*{
+	text-align: center;
+}
+
+.outside{background: green; padding: 5px; width: 50%; min-width: 200px; border: solid; border-radius: 20px 20px 0 0;}
+
+.top-controls{
+	padding: 20px;
+}
+
+.top-controls p{
+	display: inline;
+	background: red;
+	padding: 10px;
+	margin: 5px;
+	border: solid 1px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.top-controls p:hover{
+	box-shadow: 0 0 5px 1px;
+}
+
+.top-controls p:active{
+	left:1px;
+	box-shadow: 0 0 3px 0px;
+}
+
 .block{display: block; background: blue;}
 
-.inline p{display: inline; background: red;}
+
+h5{
+	color: yellow;
+	background: black;
+	text-align: left;
+}
+
+.order{
+	text-align: right;
+	display: inline;
+	float: right;
+}
+
+h1{
+	background: orange;
+}
