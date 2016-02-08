@@ -1,13 +1,11 @@
 $(document).ready(function(){
 	
 	$('.start').click(startPomodoro);
-	//$(".study-txt").prop("value","Hello2");
-	
-	/*
-	$('.stop').click(stopTimer);
-	*/
 	
 	$('.reset').click(reset);
+	
+	$('.plus').click(addMinute);
+	$('.minus').click(minusMinute);
 	});
 
 var timerRunning = false;
@@ -17,6 +15,7 @@ var breakDuration;
 var diffSec;
 var timeBeforePause = 0;
 var studying = true;
+var currentRound = 1;
 
 var timer;
 
@@ -41,6 +40,23 @@ var reset = function(){
 	stopTimer();
 	$('h1').text("00:00:00");
 	timeBeforePause = 0;
+	currentRound = 1;
+	$('.block').html("<div id='#1' class='.title'>"+
+					"<h5><span class='uppercase'>STUDY </span>"+
+					"<span class='1-minute' contenteditable='true'>25</span>mins "+
+					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
+					"<span class='round'>#1</span>"+
+					"</h5>"+
+					"</div>"+
+					"<h1>00:00:00</h1>"+
+					"<div id='#2' class='.title'>"+
+					"<h5><span class='uppercase'>BREAK </span>"+
+					"<span class='2-minute' contenteditable='true'>10</span>mins "+
+					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
+					"<span class='round'>#2</span></h5>"+
+					"</div>"+
+					"<script>	$('.plus').click(addMinute);"+
+					"$('.minus').click(minusMinute);</script>");
 }
 
 function studyTimer(){
@@ -48,7 +64,7 @@ function studyTimer(){
 			timerRunning=true;
 			sStartTime = new Date();
 			if(timeBeforePause === 0){
-				studyDuration = parseInt($(".study-minute").text());
+				studyDuration = parseInt($("." + currentRound + "-minute").text());
 			}
 		}
 			
@@ -62,11 +78,12 @@ function studyTimer(){
 			timer = window.setTimeout(studyTimer, 1000);
 		}
 		else{
+			shiftUp();
 			timerRunning = false;
 			timeBeforePause = 0;
+			currentRound++;
 			studying = false;
 			breakTimer();
-			
 		}
 	};
 	
@@ -76,7 +93,7 @@ var breakTimer = function(){
 		timerRunning = true;
 		sStartTime = new Date();
 		if(timeBeforePause === 0){
-			breakDuration = parseInt($(".break-minute").text());
+			breakDuration = parseInt($("." + currentRound + "-minute").text());
 		}
 	}
 	var curTime = new Date();
@@ -89,8 +106,10 @@ var breakTimer = function(){
 		timer = window.setTimeout(breakTimer, 1000);
 	}
 	else{
+		shiftUp();
 		timerRunning = false;
 		timeBeforePause = 0;
+		currentRound++;
 		studying = true;
 		studyTimer();
 	}
@@ -111,4 +130,53 @@ var breakTimer = function(){
 		timerRunning = false;
 		$(".play>i").removeClass("fa-pause stop");
 		$(".play>i").addClass("fa-play start");
+	}
+	
+	var timerType = function(){
+		if(studying){
+			return "study";
+		}
+		else{
+			return "break";
+		}
+	}
+	
+	var timerDuration = function(){
+		if(studying){
+			return studyDuration;
+		}
+		else{
+			return breakDuration;
+		}
+	}
+	
+	var shiftUp = function(){
+		$('h1').remove();
+		$('.block').append("<h1>00:00:00</h1><div id='#" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
+		(currentRound+2) + "-minute' contenteditable='true'>"+
+		timerDuration()
+		+"</span>mins <button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button><span class='round'>#"+ 
+		(currentRound+2)+"</span></h5></div>"+
+		"<script>	$('.plus').click(addMinute);"+
+		"$('.minus').click(minusMinute);</script>");
+	}
+	
+	
+	var addMinute = function(){
+		
+		var order = $($(this).parent()).parent().attr('id');
+		var id = order.replace('#','');
+		
+		var cls = "." + id + "-minute";
+		var old = parseInt($(cls).text());
+		$(cls).text(old+1);
+	}
+	
+	var minusMinute = function(){
+		var order = $($(this).parent()).parent().attr('id');
+		var id = order.replace('#','');
+		
+		var cls = "." + id + "-minute";
+		var old = parseInt($(cls).text());
+		$(cls).text(old-1);
 	}

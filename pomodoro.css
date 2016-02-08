@@ -28,14 +28,16 @@
 
 .block{display: block; background: blue;}
 
+.block *{
+	margin: 0;
+}
 
 h5{
-	color: yellow;
-	background: black;
+	background: yellow;
 	text-align: left;
 }
 
-.order{
+.round{
 	text-align: right;
 	display: inline;
 	float: right;
@@ -43,4 +45,9 @@ h5{
 
 h1{
 	background: orange;
+	margin: 10px !important;
+}
+
+.uppercase{
+	text-transform: uppercase;
 }
