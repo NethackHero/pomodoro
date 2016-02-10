@@ -41,7 +41,7 @@ var reset = function(){
 	$('h1').text("00:00:00");
 	timeBeforePause = 0;
 	currentRound = 1;
-	$('.block').html("<div id='#1' class='.title'>"+
+	$('.block').html("<div id='timer1' class='.title'>"+
 					"<h5><span class='uppercase'>STUDY </span>"+
 					"<span class='1-minute' contenteditable='true'>25</span>mins "+
 					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
@@ -49,7 +49,7 @@ var reset = function(){
 					"</h5>"+
 					"</div>"+
 					"<h1>00:00:00</h1>"+
-					"<div id='#2' class='.title'>"+
+					"<div id='timer2' class='.title'>"+
 					"<h5><span class='uppercase'>BREAK </span>"+
 					"<span class='2-minute' contenteditable='true'>10</span>mins "+
 					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
@@ -152,20 +152,22 @@ var breakTimer = function(){
 	
 	var shiftUp = function(){
 		$('h1').remove();
-		$('.block').append("<h1>00:00:00</h1><div id='#" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
+		$('#timer'+currentRound+' button').remove();
+		
+		$('.block').append("<h1>00:00:00</h1><div id='timer" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
 		(currentRound+2) + "-minute' contenteditable='true'>"+
 		timerDuration()
 		+"</span>mins <button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button><span class='round'>#"+ 
 		(currentRound+2)+"</span></h5></div>"+
-		"<script>	$('.plus').click(addMinute);"+
-		"$('.minus').click(minusMinute);</script>");
+		"<script>	$('#timer" + (currentRound+2) +" .plus').click(addMinute);"+
+		"$('#timer" + (currentRound+2) +" .minus').click(minusMinute);</script>");
 	}
 	
 	
 	var addMinute = function(){
 		
 		var order = $($(this).parent()).parent().attr('id');
-		var id = order.replace('#','');
+		var id = order.replace('timer','');
 		
 		var cls = "." + id + "-minute";
 		var old = parseInt($(cls).text());
@@ -174,7 +176,7 @@ var breakTimer = function(){
 	
 	var minusMinute = function(){
 		var order = $($(this).parent()).parent().attr('id');
-		var id = order.replace('#','');
+		var id = order.replace('timer','');
 		
 		var cls = "." + id + "-minute";
 		var old = parseInt($(cls).text());
