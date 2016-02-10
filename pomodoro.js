@@ -151,16 +151,22 @@ var breakTimer = function(){
 	}
 	
 	var shiftUp = function(){
-		$('h1').remove();
-		$('#timer'+currentRound+' button').remove();
 		
-		$('.block').append("<h1>00:00:00</h1><div id='timer" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
+		$('#timer'+currentRound+' button').fadeOut('slow','swing',function(){$('#timer'+currentRound-1+' button').remove();});
+		$('h1').slideUp('slow','swing', function(){
+			$('h1')[0].remove();
+			});
+		
+		
+		$('.block').append("<h1 hidden>00:00:00</h1><div id='timer" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
 		(currentRound+2) + "-minute' contenteditable='true'>"+
 		timerDuration()
 		+"</span>mins <button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button><span class='round'>#"+ 
 		(currentRound+2)+"</span></h5></div>"+
 		"<script>	$('#timer" + (currentRound+2) +" .plus').click(addMinute);"+
 		"$('#timer" + (currentRound+2) +" .minus').click(minusMinute);</script>");
+		
+		$('h1').slideDown('slow');
 	}
 	
 	
