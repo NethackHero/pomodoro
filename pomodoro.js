@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	
 	$('.start').click(startPomodoro);
 	
 	$('.reset').click(reset);
@@ -84,6 +83,7 @@ function studyTimer(){
 			currentRound++;
 			studying = false;
 			breakTimer();
+			$('#bell')[0].play();
 		}
 	};
 	
@@ -112,6 +112,7 @@ var breakTimer = function(){
 		currentRound++;
 		studying = true;
 		studyTimer();
+		$('#bell')[0].play();
 	}
 }
 	
