@@ -26,14 +26,13 @@
 	box-shadow: 0 0 3px 0px;
 }
 
-.block{display: block; background: blue;}
+.block{display: block; background: #68D13C;}
 
 .block *{
 	margin: 0;
 }
 
 h5{
-	background: yellow;
 	text-align: left;
 }
 
@@ -43,12 +42,47 @@ h5{
 	float: right;
 }
 
-h1{
-	background: orange;
-	padding: 10px;
+.clock-face>h1{
+	font-family: "Courier New", Courier, monospace;
+	background: black;
+	border: solid 1px #FFFB2C;
+	color: white;
+	width: 200px;
+	padding: 10px 0;
+	margin: 0 auto;
+	box-shadow: 0 0 5px 5px #FFFB2C;
+}
+
+.clock-face{
+	background: #9BF575;
+	padding: 10px 0;
 }
 
 .uppercase{
 	text-transform: uppercase;
+	font-family: Impact, Charcoal, sans-serif;
+	padding: 0 2px;
 }
 
+.title span:nth-child(2){
+	border: solid black 1px;
+	background: #9BF575;
+	padding: 1px;
+	margin: 1px;
+}
+
+.title{
+	padding: 4px 0;
+}
+
+.round{
+	border: solid black 1px;
+	border-radius: 20px;
+	padding: 2px;
+	background: #9BF575;
+	margin: 1px;
+}
+
+.active .round{
+	background-color: yellow;
+}

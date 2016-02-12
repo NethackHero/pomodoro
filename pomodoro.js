@@ -5,6 +5,8 @@ $(document).ready(function(){
 	
 	$('.plus').click(addMinute);
 	$('.minus').click(minusMinute);
+	
+	$('.title>span').click(function(){console.log($('.title span').text());});
 	});
 
 var timerRunning = false;
@@ -40,22 +42,23 @@ var reset = function(){
 	$('h1').text("00:00:00");
 	timeBeforePause = 0;
 	currentRound = 1;
-	$('.block').html("<div id='timer1' class='.title'>"+
+	$('.block').html("<div id='timer1' class='title active'>"+
 					"<h5><span class='uppercase'>STUDY </span>"+
 					"<span class='1-minute' contenteditable='true'>25</span>mins "+
 					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
 					"<span class='round'>#1</span>"+
 					"</h5>"+
 					"</div>"+
-					"<h1>00:00:00</h1>"+
-					"<div id='timer2' class='.title'>"+
+					"<div class='clock-face'><h1>00:00:00</h1></div>"+
+					"<div id='timer2' class='title'>"+
 					"<h5><span class='uppercase'>BREAK </span>"+
 					"<span class='2-minute' contenteditable='true'>10</span>mins "+
 					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
 					"<span class='round'>#2</span></h5>"+
-					"</div>"+
-					"<script>	$('.plus').click(addMinute);"+
-					"$('.minus').click(minusMinute);</script>");
+					"</div>");
+					$('.plus').click(addMinute);
+					$('.minus').click(minusMinute);
+					
 }
 
 function studyTimer(){
@@ -155,17 +158,21 @@ var breakTimer = function(){
 		
 		$('#timer'+currentRound+' button').fadeOut('slow','swing',function(){$('#timer'+currentRound-1+' button').remove();});
 		$('h1').slideUp('slow','swing', function(){
-			$('h1')[0].remove();
+			$('.clock-face')[0].remove();
 			});
 		
 		
-		$('.block').append("<h1 hidden>00:00:00</h1><div id='timer" + (currentRound+2) + "' class='.title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
+		$('.block').append("<div class='clock-face'><h1 hidden>00:00:00</h1></div><div id='timer" + (currentRound+2) + "' class='title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
 		(currentRound+2) + "-minute' contenteditable='true'>"+
 		timerDuration()
 		+"</span>mins <button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button><span class='round'>#"+ 
-		(currentRound+2)+"</span></h5></div>"+
-		"<script>	$('#timer" + (currentRound+2) +" .plus').click(addMinute);"+
-		"$('#timer" + (currentRound+2) +" .minus').click(minusMinute);</script>");
+		(currentRound+2)+"</span></h5></div>");
+		
+		$('#timer' + (currentRound+2) +' .plus').click(addMinute);
+		$('#timer' + (currentRound+2) +' .minus').click(minusMinute);
+		
+		$("#timer"+currentRound).removeClass("active");
+		$("#timer"+(currentRound+1)).addClass("active");
 		
 		$('h1').slideDown('slow');
 	}
