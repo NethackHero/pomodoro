@@ -40,6 +40,7 @@ h5{
 	text-align: right;
 	display: inline;
 	float: right;
+	cursor: default;
 }
 
 .clock-face>h1{
@@ -51,6 +52,7 @@ h5{
 	padding: 10px 0;
 	margin: 0 auto;
 	box-shadow: 0 0 5px 5px #FFFB2C;
+	
 }
 
 .clock-face{
@@ -63,12 +65,17 @@ h5{
 	font-family: Impact, Charcoal, sans-serif;
 	padding: 0 2px;
 }
-
+/**
 .title span:nth-child(2){
 	border: solid black 1px;
 	background: #9BF575;
 	padding: 1px;
 	margin: 1px;
+}
+**/
+.title input{
+	width: 40px;
+	background: #9BF575;
 }
 
 .title{

@@ -3,8 +3,8 @@ $(document).ready(function(){
 	
 	$('.reset').click(reset);
 	
-	$('.plus').click(addMinute);
-	$('.minus').click(minusMinute);
+	//$('.plus').click(addMinute);
+	//$('.minus').click(minusMinute);
 	
 	$('.title>span').click(function(){console.log($('.title span').text());});
 	});
@@ -23,7 +23,7 @@ var timer;
 var startPomodoro = function(reset){
 	if(!timerRunning){
 		$(".play>i").removeClass("fa-play start");
-		$(".play>i").addClass("fa-pause stop");
+		$(".play>i").addClass("fa-pause stop"); //for the play toggle to pause
 		if(studying){
 			studyTimer();
 		}
@@ -44,20 +44,18 @@ var reset = function(){
 	currentRound = 1;
 	$('.block').html("<div id='timer1' class='title active'>"+
 					"<h5><span class='uppercase'>STUDY </span>"+
-					"<span class='1-minute' contenteditable='true'>25</span>mins "+
-					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
+					"<input class='1-minute' type='number' value='25'> mins "+
 					"<span class='round'>#1</span>"+
 					"</h5>"+
 					"</div>"+
 					"<div class='clock-face'><h1>00:00:00</h1></div>"+
 					"<div id='timer2' class='title'>"+
 					"<h5><span class='uppercase'>BREAK </span>"+
-					"<span class='2-minute' contenteditable='true'>10</span>mins "+
-					"<button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button>"+
+					"<input class='2-minute' type='number' value='10'> mins "+
 					"<span class='round'>#2</span></h5>"+
 					"</div>");
-					$('.plus').click(addMinute);
-					$('.minus').click(minusMinute);
+					//$('.plus').click(addMinute);
+					//$('.minus').click(minusMinute);
 					
 }
 
@@ -66,7 +64,8 @@ function studyTimer(){
 			timerRunning=true;
 			sStartTime = new Date();
 			if(timeBeforePause === 0){
-				studyDuration = parseInt($("." + currentRound + "-minute").text());
+				studyDuration = parseInt($("." + currentRound + "-minute").prop('value'));
+				$(".active input").prop('readonly','true');
 			}
 		}
 			
@@ -96,7 +95,8 @@ var breakTimer = function(){
 		timerRunning = true;
 		sStartTime = new Date();
 		if(timeBeforePause === 0){
-			breakDuration = parseInt($("." + currentRound + "-minute").text());
+			breakDuration = parseInt($("." + currentRound + "-minute").prop('value'));
+			$(".active input").prop('readonly','true');
 		}
 	}
 	var curTime = new Date();
@@ -162,15 +162,13 @@ var breakTimer = function(){
 			});
 		
 		
-		$('.block').append("<div class='clock-face'><h1 hidden>00:00:00</h1></div><div id='timer" + (currentRound+2) + "' class='title'><h5><span class='uppercase'>" + timerType() + "</span> <span class='" + 
-		(currentRound+2) + "-minute' contenteditable='true'>"+
-		timerDuration()
-		+"</span>mins <button class='minus'><i class='fa fa-minus'></i></button><button class='plus'><i class='fa fa-plus'></i></button><span class='round'>#"+ 
+		$('.block').append("<div class='clock-face'><h1 hidden>00:00:00</h1></div><div id='timer" + (currentRound+2) + "' class='title'><h5><span class='uppercase'>" + timerType() + 
+		"</span> <input class='" + 
+		(currentRound+2) + "-minute' type='number' value=" + timerDuration() + "> mins <span class='round'>#"+ 
 		(currentRound+2)+"</span></h5></div>");
 		
-		$('#timer' + (currentRound+2) +' .plus').click(addMinute);
-		$('#timer' + (currentRound+2) +' .minus').click(minusMinute);
-		
+		//$('#timer' + (currentRound+2) +' .plus').click(addMinute);
+		//$('#timer' + (currentRound+2) +' .minus').click(minusMinute);
 		$("#timer"+currentRound).removeClass("active");
 		$("#timer"+(currentRound+1)).addClass("active");
 		
